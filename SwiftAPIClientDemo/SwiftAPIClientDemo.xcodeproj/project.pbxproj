@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		FBD4A5CE2D93C12E00BD79EE /* Exceptions for "SwiftAPIClientDemo" folder in "SwiftAPIClientDemo" target */ = {
+		FBD4A5ED2D93C6DF00BD79EE /* Exceptions for "SwiftAPIClientDemo" folder in "SwiftAPIClientDemo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -28,7 +28,7 @@
 		FBD4A59A2D93BB3700BD79EE /* SwiftAPIClientDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				FBD4A5CE2D93C12E00BD79EE /* Exceptions for "SwiftAPIClientDemo" folder in "SwiftAPIClientDemo" target */,
+				FBD4A5ED2D93C6DF00BD79EE /* Exceptions for "SwiftAPIClientDemo" folder in "SwiftAPIClientDemo" target */,
 			);
 			path = SwiftAPIClientDemo;
 			sourceTree = "<group>";
