@@ -1,0 +1,15 @@
+{
+  "originHash" : "2354b2ab8838131995a067605aac1e37b3282417c0711995da207b74e5ba4a7a",
+  "pins" : [
+    {
+      "identity" : "swiftapiclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tony1224/SwiftAPIClient.git",
+      "state" : {
+        "revision" : "54a644077228779b857a5fb24f1c28c8a15b1e9b",
+        "version" : "1.0.4"
+      }
+    }
+  ],
+  "version" : 3
+}
