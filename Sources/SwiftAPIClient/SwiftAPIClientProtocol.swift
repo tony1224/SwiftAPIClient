@@ -33,6 +33,9 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
             }
             return try JSONDecoder().decode(T.Response.self, from: data)
         } catch {
+            if let urlError = error as? URLError {
+                print("URLError Code: \(urlError.code)")
+            }
             throw SwiftAPIError.network
         }
     }
