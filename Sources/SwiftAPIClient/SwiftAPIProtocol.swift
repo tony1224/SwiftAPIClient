@@ -36,7 +36,7 @@ public enum HTTPMethod: String {
 public class HttpHeader {
     private var header: [String: String]
     
-    init(_ header: [String: String]) {
+    public init(_ header: [String: String]) {
         self.header = header
     }
     
