@@ -16,7 +16,7 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
     
     public func request<T: SwiftAPIRequestProtocol>(api: T) async throws -> T.Response where T: SwiftAPIRequestProtocol {
         guard let urlRequest = try? createURLRequest(api) else {
-            throw ApiError.url(api.baseURL.appendingPathComponent(api.path))
+            throw SwiftAPIError.url(api.baseURL.appendingPathComponent(api.path))
         }
         do {
             // TODO: retry
@@ -26,14 +26,14 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
             let (data, urlResponse) = try await URLSession.shared.data(for: urlRequest)
 
             guard let urlResponse = urlResponse as? HTTPURLResponse else {
-                throw ApiError.emptyResponse
+                throw SwiftAPIError.emptyResponse
             }
             guard 200..<300 ~= urlResponse.statusCode else {
-                throw ApiError.undefined(status: urlResponse.statusCode, data: data)
+                throw SwiftAPIError.undefined(status: urlResponse.statusCode, data: data)
             }
             return try JSONDecoder().decode(T.Response.self, from: data)
         } catch {
-            throw ApiError.network
+            throw SwiftAPIError.network
         }
     }
     
@@ -44,13 +44,13 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
         switch api.method {
         case .get:
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-                throw ApiError.url(url)
+                throw SwiftAPIError.url(url)
             }
             components.queryItems = api.parameters?.compactMap {
                 .init(name: $0.key, value: "\($0.value)")
             }
             guard let tmpRequest = components.url.map({ URLRequest(url: $0)} ) else {
-                throw ApiError.url(url)
+                throw SwiftAPIError.url(url)
             }
             urlRequest = tmpRequest
         case .post:
