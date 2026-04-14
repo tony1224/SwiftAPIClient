@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol SwiftAPIClientProtocol {
+public protocol SwiftAPIClientProtocol: Sendable {
     func request<T: SwiftAPIRequestProtocol>(api: T) async throws -> T.Response
 }
 
@@ -66,7 +66,7 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
         urlRequest.httpMethod = api.method.rawValue
         
         if let header = api.header {
-            urlRequest.allHTTPHeaderFields = header.values()
+            urlRequest.allHTTPHeaderFields = header.values
         }
 
         return urlRequest

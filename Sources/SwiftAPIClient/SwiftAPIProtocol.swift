@@ -7,8 +7,8 @@
 
 import Foundation
 
-public protocol SwiftAPIProtocol {
-    associatedtype Response: Decodable
+public protocol SwiftAPIProtocol: Sendable {
+    associatedtype Response: Decodable & Sendable
 
     var baseURL: URL { get }
     var path: String { get }
@@ -28,30 +28,20 @@ public protocol SwiftAPIRequestProtocol: SwiftAPIProtocol {
     var parameters: [String: String]? { get }
 }
 
-public enum HTTPMethod: String {
+public enum HTTPMethod: String, Sendable {
     case get = "GET"
     case post = "POST"
 }
 
-public class HttpHeader {
-    private var header: [String: String]
-    
-    public init(_ header: [String: String]) {
-        self.header = header
-    }
-    
-    func addValues(_ values: [String: String]) -> HttpHeader {
-        var header = self.header
-        
-        values.forEach { (key, value) in
-            header[key] = value
-        }
+public struct HttpHeader: Sendable {
+    public private(set) var values: [String: String]
 
-        return HttpHeader(header)
+    public mutating func addValue(_ value: String, forKey key: String) {
+        values[key] = value
     }
-    
-    func values() -> [String:String] {
-        return self.header
+
+    public mutating func addValues(_ newValues: [String: String]) {
+        values.merge(newValues) { _, new in new }
     }
 
 }

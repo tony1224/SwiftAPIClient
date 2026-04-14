@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SwiftAPIError: Error {
+public enum SwiftAPIError: Error, Sendable {
     case url(URL)
     case network
     case response
