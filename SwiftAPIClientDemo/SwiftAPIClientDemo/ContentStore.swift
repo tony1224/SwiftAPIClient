@@ -6,11 +6,12 @@
 //
 
 import Foundation
-import Combine
+import SwiftUI
 
 @MainActor
-final class ContentStore: ObservableObject {
-    @Published private(set) var value: TestResponse = .init(userId: 0, id: 0, title: "title", body: "body")
+@Observable
+final class ContentStore {
+    private(set) var value: TestResponse = .init(userId: 0, id: 0, title: "title", body: "body")
     
     private let repository: any TestRepositoryProtocol
     

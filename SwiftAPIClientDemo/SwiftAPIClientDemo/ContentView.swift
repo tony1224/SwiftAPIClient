@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var shouldShowAlert: Bool = false
     @State private var errorMessage: String = ""
-    @EnvironmentObject var contentStore: ContentStore
+    @Environment(ContentStore.self) var contentStore
     
     var item: TestResponse {
         contentStore.value
@@ -46,7 +46,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(ContentStore(repository: PreviewTestRepository()))
+            .environment(ContentStore(repository: PreviewTestRepository()))
     }
 }
 

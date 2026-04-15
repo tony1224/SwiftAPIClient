@@ -13,7 +13,7 @@ struct SwiftAPIClientDemoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(ContentStore(repository: TestRepository(apiClient: SwiftAPIClient())))
+                .environment(ContentStore(repository: TestRepository(apiClient: SwiftAPIClient())))
         }
     }
 }

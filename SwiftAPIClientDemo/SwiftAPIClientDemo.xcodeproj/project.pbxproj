@@ -366,7 +366,7 @@
 			repositoryURL = "https://github.com/tony1224/SwiftAPIClient.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.4;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
