@@ -19,6 +19,6 @@ class TestRepository: TestRepositoryProtocol {
     }
 
     func fetch() async throws -> TestResponse {
-        try await apiClient.request(api: TestMockAPI())
+        try await apiClient.request(TestMockAPI())
     }
 }

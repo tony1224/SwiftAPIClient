@@ -20,10 +20,8 @@ extension TestAPI {
 }
 
 struct TestMockAPI: TestAPI {
-    typealias Response = TestResponse
-    
     var path: String = "posts/1"
     var method: HTTPMethod = .get
     var httpBody: Encodable?
-    var parameters: [String : String]?    
+    var parameters: [String : String]?
 }

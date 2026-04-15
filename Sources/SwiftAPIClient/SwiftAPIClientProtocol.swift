@@ -8,13 +8,17 @@
 import Foundation
 
 public protocol SwiftAPIClientProtocol: Sendable {
-    func request<T: SwiftAPIRequestProtocol>(api: T) async throws -> T.Response
+    func request<Response: Decodable & Sendable>(
+        _ api: SwiftAPIRequestProtocol
+    ) async throws -> Response
 }
 
 public final class SwiftAPIClient: SwiftAPIClientProtocol {
     public init() {}
-    
-    public func request<T: SwiftAPIRequestProtocol>(api: T) async throws -> T.Response where T: SwiftAPIRequestProtocol {
+
+    public func request<Response: Decodable & Sendable>(
+        _ api: SwiftAPIRequestProtocol
+    ) async throws -> Response {
         guard let urlRequest = try? createURLRequest(api) else {
             throw SwiftAPIError.url(api.baseURL.appendingPathComponent(api.path))
         }
@@ -28,10 +32,10 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
             guard let urlResponse = urlResponse as? HTTPURLResponse else {
                 throw SwiftAPIError.emptyResponse
             }
-            guard 200..<300 ~= urlResponse.statusCode else {
+            guard urlResponse.statusCode >= 200 && urlResponse.statusCode < 300 else {
                 throw SwiftAPIError.undefined(status: urlResponse.statusCode, data: data)
             }
-            return try JSONDecoder().decode(T.Response.self, from: data)
+            return try JSONDecoder().decode(Response.self, from: data)
         } catch {
             if let urlError = error as? URLError {
                 print("URLError Code: \(urlError.code)")
@@ -39,11 +43,11 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
             throw SwiftAPIError.network
         }
     }
-    
-    private func createURLRequest<T: SwiftAPIRequestProtocol>(_ api: T) throws -> URLRequest {
+
+    private func createURLRequest(_ api: SwiftAPIRequestProtocol) throws -> URLRequest {
         let url = api.baseURL.appendingPathComponent(api.path)
         var urlRequest: URLRequest
-        
+
         switch api.method {
         case .get:
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
@@ -64,12 +68,12 @@ public final class SwiftAPIClient: SwiftAPIClientProtocol {
             }
         }
         urlRequest.httpMethod = api.method.rawValue
-        
+
         if let header = api.header {
             urlRequest.allHTTPHeaderFields = header.values
         }
 
         return urlRequest
     }
-    
+
 }

@@ -8,19 +8,17 @@
 import Foundation
 
 public protocol SwiftAPIProtocol: Sendable {
-    associatedtype Response: Decodable & Sendable
-
     var baseURL: URL { get }
     var path: String { get }
     var method: HTTPMethod { get }
 
     // Not defined in associatedtype because it is also used for GET.
     var httpBody: Encodable? { get }
-    
+
     // Type is optional because some api uses do not require a header specification.
     // ex) Youtube Data API
     var header: HttpHeader? { get }
-    
+
     // static var retryWhenNetworkConnectionLost: ApiRetryStrategy { get }
 }
 
@@ -36,17 +34,23 @@ public enum HTTPMethod: String, Sendable {
 public struct HttpHeader: Sendable {
     public private(set) var values: [String: String]
 
+    public init() {
+        self.values = [:]
+    }
+
     public mutating func addValue(_ value: String, forKey key: String) {
         values[key] = value
     }
 
     public mutating func addValues(_ newValues: [String: String]) {
-        values.merge(newValues) { _, new in new }
+        for (key, value) in newValues {
+            values[key] = value
+        }
     }
 
 }
 
-public struct EmptyResponse: Codable {}
+public struct EmptyResponse: Codable, Sendable {}
 
 
 //public enum ApiRetryStrategy {
